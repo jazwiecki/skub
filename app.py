@@ -7,6 +7,8 @@ import json
 import bot
 from flask import Flask, request, make_response, render_template
 
+import re
+
 pyBot = bot.Bot()
 slack = pyBot.client
 
@@ -102,6 +104,16 @@ def thanks():
     pyBot.auth(code_arg)
     return render_template("thanks.html")
 
+
+@app.route("/transform", methods=["POST"])
+def transform():
+
+    text_to_transform = request.form['text']
+
+    frak = lambda frak_letter: chr(ord(frak_letter) + 120107) if (frak_letter.upper() == frak_letter) else chr(ord(frak_letter) + 120101)
+    fraktur = lambda fraktur_me: str.join('', [frak(char) if re.search('[a-zA-Z]', char) else char for char in fraktur_me])
+
+    return make_response("{}".format(fraktur(text_to_transform)), 200)
 
 @app.route("/listening", methods=["GET", "POST"])
 def hears():
