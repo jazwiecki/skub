@@ -5,6 +5,7 @@ A routing layer for the onboarding bot tutorial built using
 """
 import json
 import bot
+import skub
 from flask import Flask, request, make_response, render_template
 
 import re
@@ -110,10 +111,7 @@ def transform():
 
     text_to_transform = request.form['text']
 
-    frak = lambda frak_letter: chr(ord(frak_letter) + 120107) if (frak_letter.upper() == frak_letter) else chr(ord(frak_letter) + 120101)
-    fraktur = lambda fraktur_me: str.join('', [frak(char) if re.search('[a-zA-Z]', char) else char for char in fraktur_me])
-
-    return make_response("{}".format(fraktur(text_to_transform)), 200)
+    return make_response("{}".format(skub.transform(text_to_transform, 'fraktur')), 200)
 
 @app.route("/listening", methods=["GET", "POST"])
 def hears():
