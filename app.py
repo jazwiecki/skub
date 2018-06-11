@@ -111,7 +111,17 @@ def transform():
 
     text_to_transform = request.form['text']
 
-    return make_response("{}".format(skub.transform(text_to_transform, 'fraktur')), 200)
+    if not text_to_transform:
+        available_typefaces = str.join(', ', [t for t in skub.typefaces.keys()])
+        help_text = f'''\
+To post text using another typeface, use the `/skub` slash
+command with one of the following typeface names:
+{available_typefaces}'''
+        response = help_text
+    else:
+        response = skub.transform(text_to_transform, 'fraktur')
+
+    return make_response("{}".format(response), 200)
 
 @app.route("/listening", methods=["GET", "POST"])
 def hears():
