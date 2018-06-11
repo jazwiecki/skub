@@ -49,5 +49,4 @@ def transform(text, typeface):
     if typeface in typefaces:
         return str.join('', [getattr(typefaces[typeface], char, char) for char in text])
     else:
-        known_type_faces = str.join(', ', [t for t in typefaces.keys()])
-        return "Couldn't find '{}', here is a list of available typefaces: {}".format(typeface, known_type_faces)
+        return "Couldn't find '{}', here is a list of available typefaces: {}".format(typeface, str.join(', ', [t for t in typefaces.keys()]))
