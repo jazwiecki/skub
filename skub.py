@@ -28,7 +28,7 @@ wide = 'ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘ
 
 typefaces = {'bold'             : Typeface(*bold),
             'bold-italic'       : Typeface(*bold_italic),
-            'bold_script'       : Typeface(*bold_script),
+            'bold-script'       : Typeface(*bold_script),
             'caps'              : Typeface(*caps),
             'circled'           : Typeface(*circled),
             'flipped'           : Typeface(*flipped),
