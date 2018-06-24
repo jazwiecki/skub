@@ -6,7 +6,7 @@ A routing layer for the onboarding bot tutorial built using
 import json
 import bot
 import skub
-from flask import Flask, request, make_response, render_template
+from flask import Flask, request, make_response, render_template, jsonify
 
 import re
 
@@ -110,18 +110,39 @@ def thanks():
 def transform():
 
     text_to_transform = request.form['text']
+    # channel_id = request.form['channel_id']
+    # user_id = request.form['user_id']
 
-    if not text_to_transform:
+    if not text_to_transform or text_to_transform == 'help':
         available_typefaces = str.join(', ', [t for t in skub.typefaces.keys()])
         help_text = f'''\
-To post text using another typeface, use the `/skub` slash
-command with one of the following typeface names:
+To post text using another typeface, use the `/skub` slash command with one of the following typeface names:
 {available_typefaces}'''
-        response = help_text
+        response_text = help_text
     else:
-        response = skub.transform(text_to_transform, 'fraktur')
+        response_text = skub.transform(text_to_transform, 'fraktur')
 
-    return make_response("{}".format(response), 200)
+    app.logger.info('about to call pyBot.post_skub')
+
+    bot_response = pyBot.post_skub('UB5KU32H4', 'CANV7RGCS', response_text)
+
+    app.logger.info('transform output: {}'.format(bot_response))
+
+    # slack_response = slack.api_call(
+    #             "chat.postMessage",
+    #             channel = 'CANV7RGCS',
+    #             text = response_text,
+    #         )
+
+    # response = {
+    #     'channel': 'CANV7RGCS',
+    #     'text': response_text,
+    #     'attachments': [{'text': 'i am an attachment'}],
+    # }
+
+    # return make_response(jsonify(response), 200)
+
+    return make_response("", 200)
 
 @app.route("/listening", methods=["GET", "POST"])
 def hears():
@@ -163,5 +184,5 @@ def hears():
                          you're looking for.", 404, {"X-Slack-No-Retry": 1})
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)

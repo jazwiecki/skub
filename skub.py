@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Python library class for translating alpha ascii to other unicode fonts
+Python library class for translating alpha ascii to other unicode 'fonts'
 """
 
 import collections
