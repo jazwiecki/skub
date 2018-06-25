@@ -27,7 +27,7 @@ class Bot(object):
                       # Scopes provide and limit permissions to what our app
                       # can access. It's important to use the most restricted
                       # scope that your app will need.
-                      "scope": "commands chat:write:user"}
+                      "scope": "bot commands chat:write:user"}
         self.verification = os.environ.get("VERIFICATION_TOKEN")
 
         # NOTE: Python-slack requires a client connection to generate
@@ -253,14 +253,22 @@ class Bot(object):
         # Update the timestamp saved on the message object
         message_obj.timestamp = post_message["ts"]
 
-    def post_skub(self, user, channel, message):
+    def post_skub(self, team, user, channel, message):
 
-        return {"slack_says":
-                    self.client.api_call(
-                        "chat.postMessage",
-                        channel = channel,
-                        text = message,
-                        as_user = True,
-                        username = user
-                    )
-                }
+        slack_response = self.client.api_call(
+                            "chat.postMessage",
+                            channel = channel,
+                            text = message,
+                            as_user = True,
+                        )
+
+        if not slack_response['ok']:
+            slack_response =  self.client.api_call(
+                                "chat.postEphemeral",
+                                channel = channel,
+                                text = "You aren't authorized, click here to authorize",
+                                user = user,
+                            )
+            print("slack response not ok, user not authorized, response to postEphemeral: {}".format(slack_response))
+
+        return slack_response

@@ -109,9 +109,10 @@ def thanks():
 @app.route("/transform", methods=["POST"])
 def transform():
 
-    text_to_transform = request.form['text']
-    # channel_id = request.form['channel_id']
-    # user_id = request.form['user_id']
+    text_to_transform = request.form.get('text', None)
+    team_id = request.form.get('team_id', None)
+    channel_id = request.form.get('channel_id', None)
+    user_id = request.form.get('user_id', None)
 
     if not text_to_transform or text_to_transform == 'help':
         available_typefaces = str.join(', ', [t for t in skub.typefaces.keys()])
@@ -124,7 +125,7 @@ To post text using another typeface, use the `/skub` slash command with one of t
 
     app.logger.info('about to call pyBot.post_skub')
 
-    bot_response = pyBot.post_skub('UB5KU32H4', 'CANV7RGCS', response_text)
+    bot_response = pyBot.post_skub(team_id, user_id, channel_id, response_text)
 
     app.logger.info('transform output: {}'.format(bot_response))
 
