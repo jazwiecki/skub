@@ -47,6 +47,10 @@ typefaces = {'bold'             : Typeface(*bold),
 
 def transform(text, typeface):
     if typeface in typefaces:
+        # look up the chosen typeface in the typefaces dict and, for each
+        # character in the text, fetch it from the Typeface named tuple,
+        # returning the original char as a default if it's not in the
+        # charset (e.g. numbers, exclamation points, emoji, etc.)
         return str.join('', [getattr(typefaces[typeface], char, char) for char in text])
     else:
         return "Couldn't find '{}', here is a list of available typefaces: {}".format(typeface, str.join(', ', [t for t in typefaces.keys()]))
