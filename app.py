@@ -5,7 +5,7 @@ A routing layer for the onboarding bot tutorial built using
 """
 import json
 import bot
-import skub
+import uniform
 from flask import Flask, request, make_response, render_template, jsonify
 
 import re
@@ -115,13 +115,13 @@ def transform():
     user_id = request.form.get('user_id', None)
 
     if not text_to_transform or text_to_transform == 'help':
-        available_typefaces = str.join(', ', [t for t in skub.typefaces.keys()])
+        available_typefaces = str.join(', ', [t for t in uniform.typefaces.keys()])
         help_text = f'''\
 To post text using another typeface, use the `/skub` slash command with one of the following typeface names:
 {available_typefaces}'''
         response_text = help_text
     else:
-        response_text = skub.transform(text_to_transform, 'fraktur')
+        response_text = uniform.transform(text_to_transform, 'fraktur')
 
     app.logger.info('about to call pyBot.post_skub')
 
