@@ -21,7 +21,9 @@ jmespath==0.9.3
 kappa==0.6.0
 lambda-packages==0.20.0
 MarkupSafe==1.0
+mock==2.0.0
 more-itertools==6.0.0
+pbr==5.1.2
 pipdeptree==0.13.1
 placebo==0.8.1
 pluggy==0.8.1
