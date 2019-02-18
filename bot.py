@@ -255,6 +255,7 @@ class Bot(object):
 
     def post_skub(self, team, user, channel, message):
 
+        # this will either post the message or return an error
         slack_response = self.client.api_call(
                             "chat.postMessage",
                             channel = channel,
@@ -262,6 +263,9 @@ class Bot(object):
                             as_user = True,
                         )
 
+        # if 'user' hasn't authorized the bot to post on their behalf,
+        # post a message only they will see (an "Ephemeral" message)
+        # encouraging them to authorize
         if not slack_response['ok']:
             slack_response =  self.client.api_call(
                                 "chat.postEphemeral",
