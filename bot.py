@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Python Slack Bot class for use with the pythOnBoarding app
+Python Slack Bot class
 """
 import os
 import message
@@ -18,7 +18,7 @@ class Bot(object):
     """ Instanciates a Bot object to handle Slack onboarding interactions."""
     def __init__(self):
         super(Bot, self).__init__()
-        self.name = "pythonboardingbot"
+        self.name = "sub" # TODO: rename bot here
         self.emoji = ":robot_face:"
         # When we instantiate a new bot object, we can access the app
         # credentials we set earlier in our local development environment.
@@ -62,6 +62,9 @@ class Bot(object):
                                 client_secret=self.oauth["client_secret"],
                                 code=code
                                 )
+
+        # print(f'TKTK auth_response: {auth_response}')
+
         # To keep track of authorized teams and their associated OAuth tokens,
         # we will save the team ID and bot tokens to the global
         # auths object
