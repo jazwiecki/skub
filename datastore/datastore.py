@@ -24,7 +24,7 @@ class DataStore(object):
         # returns user object for combination of team_id and user_id
         """
         if team_id and user_id:
-            return self.users.query(KeyConditionExpression=Key("team_user_id").eq(f'{team_id}.{user_id}'))
+            return self.users.get_item(Key={'team_user_id': f'{team_id}.{user_id}'})
         else:
             raise Exception('PersistentDataStore.get_user() called with empty team or user IDs')
 
