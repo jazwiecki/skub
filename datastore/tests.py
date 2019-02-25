@@ -6,11 +6,9 @@ from moto import mock_dynamodb2
 
 class TestDataStore(unittest.TestCase):
 
-    # @mock_dynamodb2
     def setUp(self):
         # dynamodb = boto3.resource('dynamodb')
         self.datastore = datastore.DataStore()
-
 
 
     @mock_dynamodb2
